@@ -1,5 +1,0 @@
-Flask
-Flask-SocketIO
-eventlet
-gunicorn
-python-json-logger
