@@ -78,7 +78,7 @@ games = {}
 room_locks = defaultdict(lambda: eventlet.semaphore.Semaphore(1))
 used_words = {}
 
-WORD_FILE = "word\words.txt"
+WORD_FILE = "word/words200.txt"
 DEFAULT_WORDS = [
     ["加载失败", "加载失败"], ["加载失败", "加载失败"]
 ]
