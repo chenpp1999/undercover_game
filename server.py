@@ -419,6 +419,15 @@ def on_join_room(data):
         return emit('error', {'message': '房间不存在'})
     with room_locks[room_id]:
         game_state = games[room_id]
+        if game_state['status'] == 'finished':
+            logger.info("Player joining a finished game. Resetting room to waiting state.", extra={'player_name': player_name})
+            reset_game_for_new_round(game_state)
+            # Notify everyone in the room that the state has been reset
+            emit('player_list_update',
+                 {'players': {pid: {'name': p['name']} for pid, p in game_state['players'].items()},
+                  'disconnected_players': {pid: {'name': p['name']} for pid, p in game_state['disconnected_players'].items()},
+                  'host_id': game_state['host_id']},
+                 room=room_id)
         update_room_activity(room_id)
         logger.debug("State before join attempt.", extra={'active_players': list(game_state['players'].keys()),
                                                           'disconnected_players': list(
